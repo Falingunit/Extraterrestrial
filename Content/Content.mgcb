@@ -1,0 +1,55 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\..\..\.nuget\packages\monogame.aseprite\3.1.0\content\net6.0\MonoGame.Aseprite.ContentPipeline.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Graphics.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Tiled.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\Newtonsoft.Json.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Maps/1.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/1.tmx
+
+#begin Player/player.aseprite
+/importer:AsepriteDocumentImporter
+/processor:AsepriteDocumentProcessor
+/processorParam:SheetType=Packed
+/processorParam:MergeDuplicateFrames=True
+/processorParam:IgnoreEmptyFrames=True
+/processorParam:OnlyVisibleLayers=True
+/processorParam:BorderPadding=0
+/processorParam:Spacing=0
+/processorParam:InnerPadding=0
+/build:Player/player.aseprite
+
+#begin Tilesets/purple/Purple.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Tilesets/purple/Purple.tsx
+
+#begin Tilesets/purple/terrain.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tilesets/purple/terrain.png
+
