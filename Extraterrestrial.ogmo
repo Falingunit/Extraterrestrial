@@ -1,0 +1,81 @@
+{
+  "name": "Extraterrestrial",
+  "ogmoVersion": "3.4.0",
+  "levelPaths": ["."],
+  "backgroundColor": "#b1cbffff",
+  "gridColor": "#3c4049cc",
+  "anglesRadians": true,
+  "directoryDepth": 5,
+  "layerGridDefaultSize": {"x": 16, "y": 16},
+  "levelDefaultSize": {"x": 320, "y": 240},
+  "levelMinSize": {"x": 128, "y": 128},
+  "levelMaxSize": {"x": 4096, "y": 4096},
+  "levelValues": [],
+  "defaultExportMode": ".json",
+  "compactExport": false,
+  "externalScript": "",
+  "playCommand": "",
+  "entityTags": ["SpawnPoints"],
+  "layers": [
+    {
+      "definition": "tile",
+      "name": "Terrain",
+      "gridSize": {"x": 16, "y": 16},
+      "exportID": "23267201",
+      "exportMode": 0,
+      "arrayMode": 1,
+      "defaultTileset": "test"
+    },
+    {
+      "definition": "entity",
+      "name": "SpawnPoints",
+      "gridSize": {"x": 16, "y": 16},
+      "exportID": "23289907",
+      "requiredTags": ["SpawnPoints"],
+      "excludedTags": []
+    }
+  ],
+  "entities": [
+    {
+      "exportID": "23269412",
+      "name": "PlayerSpawn",
+      "limit": -1,
+      "size": {"x": 8, "y": 8},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#ff0000ff",
+      "tileX": true,
+      "tileY": true,
+      "tileSize": {"x": 16, "y": 16},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": ["SpawnPoints"],
+      "values": [],
+      "texture": "ogmo-temp/player.png",
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAAeVJREFUeJzt2rFKA0EUheFVBBuLoKwgmC5YKYLpgoVgOhGs9AnyVPaCAUEQwSJCihAQ2TSmFCwSiCYoFopY6QPcESZ7xt0s/F85zCbDYchhMhtFAAAAAAAAQGHMKQ8vLpXN2O7aqhnrjMY/jnnmuzujsXn2+2OQen1ZmM97AUVHgCICFBGgKHiJRFFkCuP6cN9MOri6Tb2eWSoWdqCIAEUEKCJAUW4nka2Vkvnuh9d3My+a8WJhB4oIUESAIgIUSSXi8sfpROFVLJRIQRGgiABFBChayHsBofiWV+iyYQeKCFBEgCICFEkl4vrhrtXtWLc1cJ0mFF6fV6uXzYml27LzlGJhB4oIUESAIgIUeZeIUhiXycm06wriqHpu1rJejU2xDBP7rG+xsANFBCgiQBEBirzvRHzfxHIVxlnvZapF/admo+0aTn3Hwg4UEaCIAEUEKPI+iWxWYzPWTyZBF+Py2LP/XFV2bPf5znOJN0pmbNijRDJBgCICFBGgyLtE+smkcKcOl+PTPTPWbLRTv1rMDhQRoIgARQQoki7WsygM39OE77z7iy9lOQY7UESAIgIUEaBIKpHQP8hZeLq5C/p57EARAYoIUESAIu+L9eXKthn7fH4L/epuXrhYzwsBighQRICiX7yvbaDOMWTgAAAAAElFTkSuQmCC"
+    }
+  ],
+  "tilesets": [
+    {"label": "test", "path": "ogmo-temp/terrain.png", "image": "data:image/png;base64,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", "tileWidth": 16, "tileHeight": 16, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 0, "tileMarginY": 0}
+  ]
+}

@@ -8,6 +8,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using Extraterrestrial.Tiles;
 using Extraterrestrial.ContentLoaders;
+using Microsoft.Xna.Framework.Input;
 
 namespace Extraterrestrial
 {
@@ -24,7 +25,6 @@ namespace Extraterrestrial
         private PlayerContentLoader playerContentLoader;
         private TileContentLoader tileContentLoader;
 
-        //temporary
         private OrthographicCamera camera;
         private GameObject player;
 
@@ -33,7 +33,10 @@ namespace Extraterrestrial
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.IsFullScreen = false;
+            
+            Window.BeginScreenDeviceChange(false);
+            Window.Title = "Extraterrestrial -Map-loading";
+            Window.EndScreenDeviceChange(Window.Title, 800, 480);
         }
 
         protected override void Initialize()
@@ -46,9 +49,6 @@ namespace Extraterrestrial
             playerContentLoader = new PlayerContentLoader(Content);
             tileContentLoader = new TileContentLoader(Content);
 
-            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 600);
-            camera = new OrthographicCamera(viewportadapter);
-
             base.Initialize();
         }
 
@@ -56,19 +56,24 @@ namespace Extraterrestrial
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            playerContentLoader.LoadContent();
+            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
+            camera = new OrthographicCamera(viewportadapter);
 
-            player = gameObjectManager.AddObject(new Player(new Vector2(10, 100), this));
+            playerContentLoader.LoadContent();
+            tileContentLoader.LoadContent();
+
+            player = new Player(new Vector2(10, 100), this);
+            gameObjectManager.AddObject(player);
             for (int i = 0; i <= 10; i++)
             {
                 for (int u = 0; u <= 10; u++)
                 {
-                    tileManager.AddTile(new TestTile(i, u, tileManager, tileContentLoader));
+                    tileManager.AddTile(new TestTile(i+1, u+1, tileManager, tileContentLoader));
                 }
             }
-            tileManager.AddTile(new TestTile(11, 10, tileManager, tileContentLoader));
-            tileManager.AddTile(new TestTile(13, 10, tileManager, tileContentLoader));
-            tileManager.AddTile(new TestTile(14, 10, tileManager, tileContentLoader));
+            tileManager.AddTile(new TestTile(12, 11, tileManager, tileContentLoader));
+            tileManager.AddTile(new TestTile(0, 10, tileManager, tileContentLoader));
+            tileManager.AddTile(new TestTile(20, 10, tileManager, tileContentLoader));
             tileManager.AddTile(new TestTile(14, 0, tileManager, tileContentLoader));
             tileManager.AddTile(new TestTile(14, 1, tileManager, tileContentLoader));
             tileManager.AddTile(new TestTile(14, 2, tileManager, tileContentLoader));
@@ -82,7 +87,7 @@ namespace Extraterrestrial
             gameObjectManager.Update(gameTime);
             tileManager.Update(gameTime);
 
-            camera.LookAt(player.GetPosition());
+            camera.LookAt(Vector2.Lerp(camera.Center, new Vector2(player.GetPosition().X+24, player.GetPosition().Y+24), 0.2f));
 
             base.Update(gameTime);
         }
@@ -91,7 +96,10 @@ namespace Extraterrestrial
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            //Camera affected, no-parralax sprite batch
+            var transformMatrix = camera.GetViewMatrix();
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
 
             gameObjectManager.Draw(gameTime, _spriteBatch);
             tileManager.Draw(gameTime, _spriteBatch);
@@ -100,5 +108,8 @@ namespace Extraterrestrial
 
             base.Draw(gameTime);
         }
+
+
+
     }
 }

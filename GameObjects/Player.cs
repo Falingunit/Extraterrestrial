@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using MonoGame.Aseprite.Graphics;
+using MonoGame.Extended;
 using System.Threading.Tasks;
 using Extraterrestrial.ContentLoaders.GameObjects;
 
@@ -20,8 +21,6 @@ namespace Extraterrestrial.GameObjects
         private MoveDirection moveDirection = MoveDirection.none;
         private SpriteMode spriteMode = SpriteMode.idle;
 
-        public Rectangle Bounds = Rectangle.Empty;
-
         public Player(Vector2 Position, Game1 game) : base(Position, game)
         {
         }
@@ -33,32 +32,29 @@ namespace Extraterrestrial.GameObjects
 
         public override void Load()
         {
-            spriteDocument = PlayerContentLoader.getPlayerSprite();
-            sprite = new AnimatedSprite(spriteDocument, Position)
+            Scale = 3;
+            SpriteDocument = PlayerContentLoader.getPlayerSprite();
+            Sprite = new AnimatedSprite(SpriteDocument, Position)
             {
-                Scale = new Vector2(3.5f, 3.5f),
+                Scale = new Vector2(Scale, Scale),
                 Color = Color.White
             };
         }
 
         public override void Update(GameTime gameTime)
         {
+            DefaultUpdates(gameTime);
             PlayerMovement();
 
             if (Position.Y < ground) Velocity += Game1.GRAVITY;
             if (Position.Y >= ground) Position.Y = ground;
 
             PlayerAnimation();
-
-            Position += Velocity;
-            sprite.Position = Position;
-
-            sprite.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
-            sprite.Render(_spriteBatch);
+            DefaultDraw(gameTime, _spriteBatch);
         }
 
         private void PlayerMovement()
@@ -99,11 +95,11 @@ namespace Extraterrestrial.GameObjects
             switch (moveDirection)
             {
                 case MoveDirection.left:
-                    sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
+                    Sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
                     spriteMode = SpriteMode.running;
                     break;
                 case MoveDirection.right:
-                    sprite.SpriteEffect = SpriteEffects.None;
+                    Sprite.SpriteEffect = SpriteEffects.None;
                     spriteMode = SpriteMode.running;
                     break;
                 case MoveDirection.none:
@@ -119,7 +115,7 @@ namespace Extraterrestrial.GameObjects
                 spriteMode = SpriteMode.falling;
             }
 
-            sprite.Play(GetSpriteMode());
+            Sprite.Play(GetSpriteMode());
         }
 
         private string GetSpriteMode()

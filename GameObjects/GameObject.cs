@@ -14,16 +14,19 @@ namespace Extraterrestrial.GameObjects
     {
         protected Vector2 Position;
         protected Vector2 Velocity = Vector2.Zero;
+        protected SliceKey BoundsSlice;
+        protected Rectangle Bounds;
+        protected int Scale;
 
-        protected AsepriteDocument spriteDocument;
-        protected AnimatedSprite sprite;
+        protected AsepriteDocument SpriteDocument;
+        protected AnimatedSprite Sprite;
 
-        protected Game1 game;
+        protected Game1 Game;
 
         public GameObject(Vector2 Position, Game1 game)
         {
             this.Position = Position;
-            this.game = game;
+            this.Game = game;
         }
 
         public abstract void Load();
@@ -31,7 +34,22 @@ namespace Extraterrestrial.GameObjects
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(GameTime gameTime, SpriteBatch _spriteBatch);
 
-        public Vector2 getVelocity()
+        protected virtual void DefaultUpdates(GameTime gameTime)
+        {
+            Position += Velocity;
+            Sprite.Position = Position;
+            Sprite.TryGetCurrentFrameSlice("Bounds", out BoundsSlice);
+            Bounds = BoundsSlice.Bounds;
+            Bounds.Width *= Scale;
+            Bounds.Height *= Scale;
+            Sprite.Update(gameTime);
+        }
+        protected virtual void DefaultDraw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            Sprite.Render(spriteBatch);
+        }
+
+        public Vector2 GetVelocity()
         {
             return Velocity;
         }
@@ -39,7 +57,6 @@ namespace Extraterrestrial.GameObjects
         {
             Velocity = newVelocity;
         }
-
         public Vector2 GetPosition()
         {
             return Position;
@@ -47,6 +64,10 @@ namespace Extraterrestrial.GameObjects
         public void SetPosition(Vector2 newPosition)
         {
             Position = newPosition;
+        }
+        public Rectangle GetBounds()
+        {
+            return Bounds;
         }
 
     }
