@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended.Screens;
+using MonoGame.Extended.Screens.Transitions;
 using Extraterrestrial.Tiles;
 using Extraterrestrial.ContentLoaders;
 using Microsoft.Xna.Framework.Input;
@@ -35,7 +37,7 @@ namespace Extraterrestrial
             IsMouseVisible = true;
             
             Window.BeginScreenDeviceChange(false);
-            Window.Title = "Extraterrestrial -Map-loading";
+            Window.Title = "Extraterrestrial -Map-loading -Beta 0.2.2!";
             Window.EndScreenDeviceChange(Window.Title, 800, 480);
         }
 
@@ -85,7 +87,6 @@ namespace Extraterrestrial
         protected override void Update(GameTime gameTime)
         {
             gameObjectManager.Update(gameTime);
-            tileManager.Update(gameTime);
 
             camera.LookAt(Vector2.Lerp(camera.Center, new Vector2(player.GetPosition().X+24, player.GetPosition().Y+24), 0.2f));
 

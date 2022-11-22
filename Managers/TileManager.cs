@@ -26,16 +26,7 @@ namespace Extraterrestrial.Managers
             for (int i = 0; i < Tiles.Count; i++)
             {
                 Tile tile = Tiles.ElementAt(i);
-                tile.UpdateTileType();
-            }
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            for(int i = 0; i < Tiles.Count; i++)
-            {
-                Tile tile = Tiles.ElementAt(i);
-                tile.Update(gameTime);
+                tile.SetTileType();
             }
         }
 
