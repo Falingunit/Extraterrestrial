@@ -34,9 +34,7 @@ namespace Extraterrestrial
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             
-            Window.BeginScreenDeviceChange(false);
-            Window.Title = "Extraterrestrial -Map-loading";
-            Window.EndScreenDeviceChange(Window.Title, 800, 480);
+            _graphics.IsFullScreen = true;
         }
 
         protected override void Initialize()
@@ -54,9 +52,13 @@ namespace Extraterrestrial
 
         protected override void LoadContent()
         {
+            Window.BeginScreenDeviceChange(false);
+            Window.Title = "Extraterrestrial -Map-loading";
+            Window.EndScreenDeviceChange(Window.Title, 1920, 1080);
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
+            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, 960, 540);
             camera = new OrthographicCamera(viewportadapter);
 
             playerContentLoader.LoadContent();

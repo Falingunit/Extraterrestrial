@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Aseprite.Documents;
 using MonoGame.Aseprite.Graphics;
+using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +41,12 @@ namespace Extraterrestrial.GameObjects
             Sprite.Position = Position;
             Sprite.TryGetCurrentFrameSlice("Bounds", out BoundsSlice);
             Bounds = BoundsSlice.Bounds;
-            Bounds.Width *= Scale;
-            Bounds.Height *= Scale;
             Sprite.Update(gameTime);
         }
         protected virtual void DefaultDraw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             Sprite.Render(spriteBatch);
+            spriteBatch.DrawRectangle(Bounds, Color.Red);
         }
 
         public Vector2 GetVelocity()
