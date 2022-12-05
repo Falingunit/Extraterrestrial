@@ -1,4 +1,5 @@
 ﻿using Extraterrestrial.ContentLoaders;
+using Extraterrestrial.LevelManagers.Screens;
 using Extraterrestrial.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,24 +38,53 @@ namespace Extraterrestrial.Tiles
         public int X { get; protected set; }
         public int Y { get; protected set; }
         protected TileType type;
-        protected TileManager TileManager;
+        protected LevelScreen Screen;
         protected TileContentLoader TileContentLoader;
         protected string tileSlice;
         protected AsepriteDocument tileset;
         protected Texture2D texture;
         protected Rectangle sourceRect;
 
-        public Tile(int X, int Y, TileManager tileManager, TileContentLoader tileContentLoader)
+        public Tile(int X, int Y, LevelScreen currentScreen, TileContentLoader tileContentLoader)
         {
             this.X = X;
             this.Y = Y;
-            TileManager = tileManager;
+            Screen = currentScreen;
             TileContentLoader = tileContentLoader;
         }
 
         public abstract void Load();
-        public abstract void UpdateTileType();
-        public abstract void Update(GameTime gameTime);
+        public virtual void SetTileType()
+        {
+            string final = "";
+
+            if (Screen.GetTileAt(X, Y - 1) == null) final += "top_";
+            if (Screen.GetTileAt(X, Y + 1) == null) final += "bottom_";
+            if (Screen.GetTileAt(X + 1, Y) == null) final += "right_";
+            if (Screen.GetTileAt(X - 1, Y) == null) final += "left_";
+            if (final == "") final = "center_";
+
+            final += "normal";
+
+            Console.WriteLine(final);
+
+            tileSlice = final;
+            for (int i = 0; i <= 15; i++)
+            {
+                type = (TileType)i;
+                if (tileSlice.Equals(type)) break;
+            }
+
+            AsepriteSliceKey slice = tileset.Slices.GetValueOrDefault(tileSlice).SliceKeys.GetValueOrDefault(0);
+            int x, y, width, height;
+            x = slice.X;
+            y = slice.Y;
+            width = slice.Width;
+            height = slice.Height;
+
+            sourceRect = new Rectangle(x, y, width, height);
+        }
+
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
     }

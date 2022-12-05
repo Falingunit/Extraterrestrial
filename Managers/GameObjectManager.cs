@@ -12,13 +12,10 @@ namespace Extraterrestrial.Managers
     public class GameObjectManager
     {
 
-        private Game1 game;
-
         private LinkedList<GameObject> GameObjects = new LinkedList<GameObject>();
 
-        public GameObjectManager(Game1 game)
+        public GameObjectManager()
         {
-            this.game = game;
         }
 
         public GameObject AddObject(GameObject gameObject)
@@ -28,6 +25,11 @@ namespace Extraterrestrial.Managers
 
             GameObjects.AddLast(gameObject);
             return gameObject;
+        }
+
+        public void SetObjects(LinkedList<GameObject> gameObjects)
+        {
+            GameObjects = gameObjects;
         }
 
         public void RemoveObject(GameObject gameObject)
