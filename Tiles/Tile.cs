@@ -1,5 +1,4 @@
 ﻿using Extraterrestrial.ContentLoaders;
-using Extraterrestrial.LevelManagers.Screens;
 using Extraterrestrial.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,18 +37,18 @@ namespace Extraterrestrial.Tiles
         public int X { get; protected set; }
         public int Y { get; protected set; }
         protected TileType type;
-        protected LevelScreen Screen;
+        protected TileManager TileManager;
         protected TileContentLoader TileContentLoader;
         protected string tileSlice;
         protected AsepriteDocument tileset;
         protected Texture2D texture;
         protected Rectangle sourceRect;
 
-        public Tile(int X, int Y, LevelScreen currentScreen, TileContentLoader tileContentLoader)
+        public Tile(int X, int Y, TileManager tileManager, TileContentLoader tileContentLoader)
         {
             this.X = X;
             this.Y = Y;
-            Screen = currentScreen;
+            TileManager = tileManager;
             TileContentLoader = tileContentLoader;
         }
 
@@ -58,10 +57,10 @@ namespace Extraterrestrial.Tiles
         {
             string final = "";
 
-            if (Screen.GetTileAt(X, Y - 1) == null) final += "top_";
-            if (Screen.GetTileAt(X, Y + 1) == null) final += "bottom_";
-            if (Screen.GetTileAt(X + 1, Y) == null) final += "right_";
-            if (Screen.GetTileAt(X - 1, Y) == null) final += "left_";
+            if (TileManager.GetTileAt(X, Y - 1) == null) final += "top_";
+            if (TileManager.GetTileAt(X, Y + 1) == null) final += "bottom_";
+            if (TileManager.GetTileAt(X + 1, Y) == null) final += "right_";
+            if (TileManager.GetTileAt(X - 1, Y) == null) final += "left_";
             if (final == "") final = "center_";
 
             final += "normal";

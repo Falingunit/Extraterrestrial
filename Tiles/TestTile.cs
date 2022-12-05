@@ -1,5 +1,4 @@
 ﻿using Extraterrestrial.ContentLoaders;
-using Extraterrestrial.LevelManagers.Screens;
 using Extraterrestrial.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -18,7 +17,7 @@ namespace Extraterrestrial.Tiles
     public class TestTile : Tile
     {
 
-        public TestTile(int X, int Y, LevelScreen currentScreen, TileContentLoader tileContentLoader) : base(X, Y, currentScreen, tileContentLoader)
+        public TestTile(int X, int Y, TileManager tileManager, TileContentLoader tileContentLoader) : base(X, Y, tileManager, tileContentLoader)
         {
             Load();
         }
