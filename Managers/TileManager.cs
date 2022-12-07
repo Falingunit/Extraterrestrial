@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Aseprite.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,6 +52,21 @@ namespace Extraterrestrial.Managers
             }
 
             return null;
+        }
+
+#nullable enable
+        public List<Rectangle> GetColliders()
+        {
+            int scale = 2;
+            List<Rectangle> colliders = new List<Rectangle>();
+            for (int i = 0; i < Tiles.Count; i++)
+            {
+                Tile tile = Tiles.ElementAt(i);
+                Rectangle rect = new Rectangle(tile.X * 16 * scale, tile.Y * 16 * scale, scale * 16, scale * 16);
+                colliders.Add(rect);
+            }
+
+            return colliders;
         }
 
     }

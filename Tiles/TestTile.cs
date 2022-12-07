@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Aseprite.Documents;
+using MonoGame.Extended;
 using MonoGame.Extended.Collections;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Extraterrestrial.Tiles
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle(X * 16 * scale, Y * 16 * scale, scale * 16, scale * 16), sourceRect, Color.White);
+            DefaultDraw(gameTime, spriteBatch);
         }
 
         public override void Load()

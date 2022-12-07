@@ -6,6 +6,8 @@ using MonoGame.Aseprite.Graphics;
 using MonoGame.Extended;
 using System.Threading.Tasks;
 using Extraterrestrial.ContentLoaders.GameObjects;
+using System.Collections.Generic;
+using MonoGame.Extended.Sprites;
 
 namespace Extraterrestrial.GameObjects
 {
@@ -17,43 +19,61 @@ namespace Extraterrestrial.GameObjects
         private const int moveSpeed = 7;
         private const int ground = 300;
 
-        private bool isJumping = false, isFalling = false;
+        private bool isJumping = false, isFalling = false, isGrounded = false;
         private MoveDirection moveDirection = MoveDirection.none;
         private SpriteMode spriteMode = SpriteMode.idle;
 
-        public Player(Vector2 Position, Game1 game) : base(Position, game)
+        public Player(Vector2 Position, Game1 game, List<Rectangle> collidables) : base(Position, game, collidables)
         {
         }
 
         public override void Initialize()
         {
-            Console.WriteLine("Player Initialized!");
         }
 
         public override void Load()
         {
-            Scale = 3;
             SpriteDocument = PlayerContentLoader.getPlayerSprite();
-            Sprite = new AnimatedSprite(SpriteDocument, Position)
+            Sprite = new MonoGame.Aseprite.Graphics.AnimatedSprite(SpriteDocument, Position)
             {
-                Scale = new Vector2(Scale, Scale),
+                Scale = new Vector2(Game1.SCALE, Game1.SCALE),
                 Color = Color.White
             };
         }
 
         public override void Update(GameTime gameTime)
         {
-            DefaultUpdates(gameTime);
             PlayerMovement();
 
             if (Position.Y < ground) Velocity += Game1.GRAVITY;
             if (Position.Y >= ground) Position.Y = ground;
 
-            PlayerAnimation();
+            foreach (var sprite in Collidables)
+            {
+                if ((Velocity.X > 0 && IsTouchingLeft(sprite)) ||
+                    (Velocity.X < 0 && IsTouchingRight(sprite)))
+                    Velocity.X = 0;
+
+                if (IsTouchingBottom(sprite))
+                    isGrounded = true;
+                else isGrounded = false;
+
+                if ((Velocity.Y > 0 && IsTouchingTop(sprite)) ||
+                    (Velocity.Y < 0 && IsTouchingBottom(sprite)))
+                    Velocity.Y = 0;
+            }
+
+
+            DefaultUpdates(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
+            for (int i = 0; i < Collidables.Count; i++)
+            {
+                _spriteBatch.DrawRectangle(Collidables[i], Color.IndianRed, 1, 0);
+            }
+            PlayerAnimation();
             DefaultDraw(gameTime, _spriteBatch);
         }
 
@@ -75,7 +95,7 @@ namespace Extraterrestrial.GameObjects
                 moveDirection = MoveDirection.none;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && Position.Y >= ground)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && Position.Y >= ground || isGrounded)
             {
                 Velocity.Y = -15;
                 isFalling = false;
@@ -110,7 +130,7 @@ namespace Extraterrestrial.GameObjects
             if (isJumping)
             {
                 spriteMode = SpriteMode.jumping;
-            } else if (isFalling && Position.Y < ground)
+            } else if (isFalling && Position.Y < ground && !isGrounded)
             {
                 spriteMode = SpriteMode.falling;
             }

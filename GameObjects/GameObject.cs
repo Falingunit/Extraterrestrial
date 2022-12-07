@@ -17,17 +17,18 @@ namespace Extraterrestrial.GameObjects
         protected Vector2 Velocity = Vector2.Zero;
         protected SliceKey BoundsSlice;
         protected Rectangle Bounds;
-        protected int Scale;
+        protected List<Rectangle> Collidables;
 
         protected AsepriteDocument SpriteDocument;
         protected AnimatedSprite Sprite;
 
         protected Game1 Game;
 
-        public GameObject(Vector2 Position, Game1 game)
+        public GameObject(Vector2 Position, Game1 game, List<Rectangle> collidables)
         {
             this.Position = Position;
-            this.Game = game;
+            Game = game;
+            Collidables = collidables;
         }
 
         public abstract void Load();
@@ -61,6 +62,10 @@ namespace Extraterrestrial.GameObjects
         {
             return Position;
         }
+        public Vector2 GetCenteredPosition()
+        {
+            return new Vector2(Bounds.Center.X, Bounds.Center.Y);
+        }
         public void SetPosition(Vector2 newPosition)
         {
             Position = newPosition;
@@ -68,6 +73,38 @@ namespace Extraterrestrial.GameObjects
         public Rectangle GetBounds()
         {
             return Bounds;
+        }
+
+        protected bool IsTouchingLeft(Rectangle sprite)
+        {
+            return this.Bounds.Right + this.Velocity.X > sprite.Left &&
+              this.Bounds.Left < sprite.Left &&
+              this.Bounds.Bottom > sprite.Top &&
+              this.Bounds.Top < sprite.Bottom;
+        }
+
+        protected bool IsTouchingRight(Rectangle sprite)
+        {
+            return this.Bounds.Left + this.Velocity.X < sprite.Right &&
+              this.Bounds.Right > sprite.Right &&
+              this.Bounds.Bottom > sprite.Top &&
+              this.Bounds.Top < sprite.Bottom;
+        }
+
+        protected bool IsTouchingTop(Rectangle sprite)
+        {
+            return this.Bounds.Bottom + this.Velocity.Y > sprite.Top &&
+              this.Bounds.Top < sprite.Top &&
+              this.Bounds.Right > sprite.Left &&
+              this.Bounds.Left < sprite.Right;
+        }
+
+        protected bool IsTouchingBottom(Rectangle sprite)
+        {
+            return this.Bounds.Top + this.Velocity.Y < sprite.Bottom &&
+              this.Bounds.Bottom > sprite.Bottom &&
+              this.Bounds.Right > sprite.Left &&
+              this.Bounds.Left < sprite.Right;
         }
 
     }
