@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Extraterrestrial.ContentLoaders.GameObjects;
 using System.Collections.Generic;
 using MonoGame.Extended.Sprites;
+using System.Diagnostics;
 
 namespace Extraterrestrial.GameObjects
 {
@@ -17,7 +18,7 @@ namespace Extraterrestrial.GameObjects
         private enum MoveDirection { none, left, right };
 
         private const int moveSpeed = 7;
-        private const int ground = 300;
+        private const int ground = 200;
 
         private bool isJumping = false, isFalling = false, isGrounded = false;
         private MoveDirection moveDirection = MoveDirection.none;
@@ -45,23 +46,14 @@ namespace Extraterrestrial.GameObjects
         {
             PlayerMovement();
 
-            if (Position.Y < ground) Velocity += Game1.GRAVITY;
-            if (Position.Y >= ground) Position.Y = ground;
-
-            foreach (var sprite in Collidables)
+            if (!isGrounded) Velocity += Game1.GRAVITY;
+            if (Position.Y >= ground)
             {
-                if ((Velocity.X > 0 && IsTouchingLeft(sprite)) ||
-                    (Velocity.X < 0 && IsTouchingRight(sprite)))
-                    Velocity.X = 0;
-
-                if (IsTouchingBottom(sprite))
-                    isGrounded = true;
-                else isGrounded = false;
-
-                if ((Velocity.Y > 0 && IsTouchingTop(sprite)) ||
-                    (Velocity.Y < 0 && IsTouchingBottom(sprite)))
-                    Velocity.Y = 0;
+                Position.Y = ground;
+                isGrounded = true;
             }
+            else isGrounded = false;    
+
 
 
             DefaultUpdates(gameTime);
@@ -95,7 +87,7 @@ namespace Extraterrestrial.GameObjects
                 moveDirection = MoveDirection.none;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && Position.Y >= ground || isGrounded)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && isGrounded)
             {
                 Velocity.Y = -15;
                 isFalling = false;

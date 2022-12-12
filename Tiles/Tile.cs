@@ -41,8 +41,8 @@ namespace Extraterrestrial.Tiles
         protected string tileSlice;
         protected AsepriteDocument tileset;
         protected Texture2D texture;
-        public Rectangle sourceRect;
-        public Rectangle destinationRectangle;
+        protected Rectangle sourceRect;
+        protected Rectangle destinationRectangle;
 
         public Tile(int X, int Y, TileManager tileManager, TileContentLoader tileContentLoader)
         {
@@ -53,6 +53,7 @@ namespace Extraterrestrial.Tiles
         }
 
         public abstract void Load();
+
         public virtual void SetTileType()
         {
             string final = "";
@@ -82,20 +83,15 @@ namespace Extraterrestrial.Tiles
             height = slice.Height;
 
             sourceRect = new Rectangle(x, y, width, height);
+
         }
 
         public void DefaultDraw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            destinationRectangle = new Rectangle(X * TILE_LENGHT * Game1.SCALE, Y * TILE_LENGHT * Game1.SCALE, Game1.SCALE * TILE_LENGHT, Game1.SCALE * TILE_LENGHT);
-            spriteBatch.Draw(texture, destinationRectangle, sourceRect, Color.White);
         }
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
-        public Rectangle GetDestinationRectangle()
-        {
-            return destinationRectangle;
-        }
 
     }
 }

@@ -74,38 +74,5 @@ namespace Extraterrestrial.GameObjects
         {
             return Bounds;
         }
-
-        protected bool IsTouchingLeft(Rectangle sprite)
-        {
-            return this.Bounds.Right + this.Velocity.X > sprite.Left &&
-              this.Bounds.Left < sprite.Left &&
-              this.Bounds.Bottom > sprite.Top &&
-              this.Bounds.Top < sprite.Bottom;
-        }
-
-        protected bool IsTouchingRight(Rectangle sprite)
-        {
-            return this.Bounds.Left + this.Velocity.X < sprite.Right &&
-              this.Bounds.Right > sprite.Right &&
-              this.Bounds.Bottom > sprite.Top &&
-              this.Bounds.Top < sprite.Bottom;
-        }
-
-        protected bool IsTouchingTop(Rectangle sprite)
-        {
-            return this.Bounds.Bottom + this.Velocity.Y > sprite.Top &&
-              this.Bounds.Top < sprite.Top &&
-              this.Bounds.Right > sprite.Left &&
-              this.Bounds.Left < sprite.Right;
-        }
-
-        protected bool IsTouchingBottom(Rectangle sprite)
-        {
-            return this.Bounds.Top + this.Velocity.Y < sprite.Bottom &&
-              this.Bounds.Bottom > sprite.Bottom &&
-              this.Bounds.Right > sprite.Left &&
-              this.Bounds.Left < sprite.Right;
-        }
-
     }
 }

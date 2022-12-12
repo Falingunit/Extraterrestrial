@@ -23,6 +23,11 @@ namespace Extraterrestrial.Managers
             return tile;
         }
 
+        public void AddTiles(LinkedList<Tile> tiles)
+        {
+            Tiles = tiles;
+        }
+
         public void UpdateAllTiles()
         {
             for (int i = 0; i < Tiles.Count; i++)
@@ -57,12 +62,12 @@ namespace Extraterrestrial.Managers
 #nullable enable
         public List<Rectangle> GetColliders()
         {
-            int scale = 2;
+            int scale = Game1.SCALE;
             List<Rectangle> colliders = new List<Rectangle>();
             for (int i = 0; i < Tiles.Count; i++)
             {
                 Tile tile = Tiles.ElementAt(i);
-                Rectangle rect = new Rectangle(tile.X * 16 * scale, tile.Y * 16 * scale, scale * 16, scale * 16);
+                Rectangle rect = new Rectangle(tile.X * Tile.TILE_LENGHT * scale, tile.Y * Tile.TILE_LENGHT * scale, scale * Tile.TILE_LENGHT, scale * Tile.TILE_LENGHT);
                 colliders.Add(rect);
             }
 

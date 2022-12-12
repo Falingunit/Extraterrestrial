@@ -8,17 +8,24 @@ using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using Extraterrestrial.Tiles;
 using Extraterrestrial.ContentLoaders;
+using Extraterrestrial.LevelManagers;
+using System.Collections.Generic;
+using System.Xml;
+using System.Linq;
+using MonoGame.Aseprite.Documents;
 
 namespace Extraterrestrial
 {
     public class Game1 : Game
     {
         public static Vector2 GRAVITY = new Vector2(0, 1f);
-        public static int SCALE = 3;
+        public static int SCALE = 2;
         public static float CAMERA_SMOOTHING = 0.5f;
 
         private GraphicsDeviceManager _graphics;   
         private SpriteBatch _spriteBatch;
+
+        public static AsepriteDocument doc;
 
         //Managers
         /*
@@ -39,6 +46,7 @@ namespace Extraterrestrial
 
         private OrthographicCamera _camera;
         private GameObject player;
+
 
         public Game1()
         {
@@ -78,35 +86,64 @@ namespace Extraterrestrial
             playerContentLoader.LoadContent();
             tileContentLoader.LoadContent();
 
-            //for (int i = 0; i <= 10; i++)
-            //{
-            //    for (int u = 0; u <= 10; u++)
-            //    {
-            //        tileManager.AddTile(new TestTile(i+1, u+1, tileManager, tileContentLoader));
-            //    }
-            //}
-            _tileManager.AddTile(new TestTile(12, 11, _tileManager, tileContentLoader));
-            _tileManager.AddTile(new TestTile(0, 10, _tileManager, tileContentLoader));
-            _tileManager.AddTile(new TestTile(20, 10, _tileManager, tileContentLoader));
-            _tileManager.AddTile(new TestTile(14, 0, _tileManager, tileContentLoader));
-            _tileManager.AddTile(new TestTile(14, 1, _tileManager, tileContentLoader));
-            _tileManager.AddTile(new TestTile(14, 2, _tileManager, tileContentLoader));
-            _tileManager.AddTile(new TestTile(14, 5, _tileManager, tileContentLoader));
-
+            _tileManager.AddTiles(import("C:\\Users\\sbani\\Desktop\\Falingunit\\Extraterrestrial\\Content\\Maps\\test.xml"));
             _tileManager.UpdateAllTiles();
-
-            player = new Player(new Vector2(-100, 100), this, _tileManager.GetColliders());
+            player = new Player(new Vector2(200, 0), this, _tileManager.GetColliders());
 
             _gameObjectManager.AddObject(player);
+
         }
         
         protected override void Update(GameTime gameTime)
         {
             _gameObjectManager.Update(gameTime);
-
+            doc = tileContentLoader.TestTileset;
             _camera.LookAt(Vector2.Lerp(_camera.Center, player.GetCenteredPosition(), CAMERA_SMOOTHING));
-
             base.Update(gameTime);
+        }
+
+        public LinkedList<Tile> import(string filename)
+        {
+            Map map;
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(filename);
+
+            LinkedList<Tile> tiles = new LinkedList<Tile>();
+            LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+
+            string tileData = xmlDocument.SelectSingleNode("/map/layers/data2D").InnerText;
+            int widthX = int.Parse(xmlDocument.SelectSingleNode("/map/layers/gridCellsX").InnerText);
+            int i = 0;
+            string[] data2D = tileData.Split(",");
+
+
+            int x = 0, y = 0;
+            for (int j = 0; j < data2D.Length; j++)
+            {
+                if (j % 20 != 0)
+                {
+                    string val = data2D[j];
+
+                    switch (val.Trim())
+                    {
+                        case "0":
+                            tiles.AddLast(new TestTile(x, y, _tileManager, tileContentLoader));
+                            System.Diagnostics.Debug.Write("hi");
+                            break;
+                        default:
+                            break;
+                    }
+                    x++;
+                }
+                else
+                {
+                    x = 0;
+                    y++;
+                }
+            }
+
+            return tiles;
+            
         }
 
         protected override void Draw(GameTime gameTime)

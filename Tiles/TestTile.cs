@@ -25,9 +25,11 @@ namespace Extraterrestrial.Tiles
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DefaultDraw(gameTime, spriteBatch);
+            spriteBatch.Draw(texture, new Rectangle(X * TILE_LENGHT * Game1.SCALE, Y * TILE_LENGHT * Game1.SCALE, Game1.SCALE * TILE_LENGHT, Game1.SCALE * TILE_LENGHT), sourceRect, Color.White);
+            SetTileType();
         }
 
+        
         public override void Load()
         {
             tileset = TileContentLoader.TestTileset;

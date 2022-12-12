@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extraterrestrial", "Extraterrestrial.csproj", "{2A59C4C3-A985-49D0-A5D2-0AE21C50BB38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extraterrestrial", "Extraterrestrial.csproj", "{2A59C4C3-A985-49D0-A5D2-0AE21C50BB38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtraterrestrialMapContentLoader", "..\ExtraterrestrialMapContentLoader\ExtraterrestrialMapContentLoader.csproj", "{17B80AEC-EC13-4328-94DE-FA5B51E5C01E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2A59C4C3-A985-49D0-A5D2-0AE21C50BB38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A59C4C3-A985-49D0-A5D2-0AE21C50BB38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A59C4C3-A985-49D0-A5D2-0AE21C50BB38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17B80AEC-EC13-4328-94DE-FA5B51E5C01E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17B80AEC-EC13-4328-94DE-FA5B51E5C01E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17B80AEC-EC13-4328-94DE-FA5B51E5C01E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17B80AEC-EC13-4328-94DE-FA5B51E5C01E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
